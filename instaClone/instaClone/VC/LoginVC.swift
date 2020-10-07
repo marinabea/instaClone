@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Firebase
 
 class LoginVC: UIViewController {
     var username: String?
@@ -17,7 +18,6 @@ class LoginVC: UIViewController {
     let loginButton = UIButton()
     let signUpText = UILabel()
     let signUpButton = UIButton()
-
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -64,6 +64,7 @@ class LoginVC: UIViewController {
         signUpButton.setTitle("Sign Up", for: .normal)
         signUpButton.setTitleColor(.systemBlue, for: .normal)
         signUpButton.setTitleColor(.label, for: .highlighted)
+        signUpButton.addTarget(self, action: #selector(createUser), for: .touchUpInside)
         
         NSLayoutConstraint.activate([
             instagramImage.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 100),
@@ -94,6 +95,23 @@ class LoginVC: UIViewController {
         ])
         
     }
+    
+    @objc private func createUser() {
+        Auth.auth().createUser(withEmail: usernameTextField.text!, password: passwordTextField.text!) { (authDataResult, error) in
+            if let authResult = authDataResult {
+                print("auth: \(authResult.user)")
+                print("auth: \(authResult.user.uid)")
+                print("auth: \(authResult.user.metadata)")
+                print("auth: \(authResult.user.providerData)")
+                print("info: \(authResult.user.multiFactor.enrolledFactors)")
+            }
+            
+            if let authError = error {
+                print("error: \(authError)")
+            }
+        }
+    }
+    
     
     @objc private func dismissKeyboard() {
         _ = usernameTextField.isFirstResponder ? usernameTextField.resignFirstResponder() : passwordTextField.resignFirstResponder()
