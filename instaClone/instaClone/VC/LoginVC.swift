@@ -11,6 +11,7 @@ import Firebase
 class LoginVC: UIViewController {
     var username: String?
     var password: String?
+    var ref: DatabaseReference!
     
     let instagramImage = UIImageView(image: UIImage(named: "instagram")!)
     let usernameTextField = UITextField()
@@ -24,11 +25,14 @@ class LoginVC: UIViewController {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(tapGesture)
         configure()
+        
+        ref = Database.database().reference()
     }
     
     
     private func configure() {
-        view.translatesAutoresizingMaskIntoConstraints = false
+        // The line below strechtes the whole view if this ViewController is inside a NavigationController -- why?
+        //view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .systemBackground
         
         instagramImage.translatesAutoresizingMaskIntoConstraints = false
@@ -64,7 +68,8 @@ class LoginVC: UIViewController {
         signUpButton.setTitle("Sign Up", for: .normal)
         signUpButton.setTitleColor(.systemBlue, for: .normal)
         signUpButton.setTitleColor(.label, for: .highlighted)
-        signUpButton.addTarget(self, action: #selector(createUser), for: .touchUpInside)
+        //signUpButton.addTarget(self, action: #selector(createUser), for: .touchUpInside)
+        signUpButton.addTarget(self, action: #selector(showSignUpPage), for: .touchUpInside)
         
         NSLayoutConstraint.activate([
             instagramImage.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 100),
@@ -112,6 +117,17 @@ class LoginVC: UIViewController {
         }
     }
     
+    @objc private func showSignUpPage() {
+        let signupVC = SignUpVC()
+        signupVC.modalTransitionStyle = .crossDissolve
+        signupVC.modalPresentationStyle = .fullScreen
+        
+        present(signupVC, animated: true)
+        
+        /*dismiss(animated: true) { [weak self] in
+            self?.present(signupVC, animated: true)
+        }*/
+    }
     
     @objc private func dismissKeyboard() {
         _ = usernameTextField.isFirstResponder ? usernameTextField.resignFirstResponder() : passwordTextField.resignFirstResponder()
