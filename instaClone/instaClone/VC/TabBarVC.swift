@@ -20,7 +20,7 @@ class TabBarVC: UITabBarController {
         activityVC.tabBarItem = UITabBarItem(title: nil, image: UIImage(systemName: "heart"), tag: 2)
         
         let profileVC = UINavigationController(rootViewController: ProfileVC())
-        profileVC.tabBarItem = UITabBarItem(title: nil, image: UIImage(systemName: "person"), tag: 2)
+        profileVC.tabBarItem = UITabBarItem(title: nil, image: UIImage(systemName: "person"), tag: 3)
         
         viewControllers = [homeVC, newPostVC, activityVC, profileVC]
     }
