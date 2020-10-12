@@ -119,14 +119,7 @@ class LoginVC: UIViewController {
     
     @objc private func showSignUpPage() {
         let signupVC = SignUpVC()
-        signupVC.modalTransitionStyle = .crossDissolve
-        signupVC.modalPresentationStyle = .fullScreen
-        
-        present(signupVC, animated: true)
-        
-        /*dismiss(animated: true) { [weak self] in
-            self?.present(signupVC, animated: true)
-        }*/
+        showDetailViewController(signupVC, sender: self)
     }
     
     @objc private func dismissKeyboard() {
