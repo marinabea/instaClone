@@ -6,8 +6,14 @@
 //
 
 import UIKit
+import Firebase
 
 class SignUpVC: UIViewController {
+    
+    let emailField = UITextField()
+    let fullNameField = UITextField()
+    let usernameField = UITextField()
+    let passwordField = UITextField()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,46 +27,48 @@ class SignUpVC: UIViewController {
         
         let pageLabel = UILabel()
         view.addSubview(pageLabel)
-        pageLabel.text = "Sign Up"
-        pageLabel.font = UIFont.preferredFont(forTextStyle: .title2)
         pageLabel.translatesAutoresizingMaskIntoConstraints = false
+        pageLabel.text = "Sign Up"
+        pageLabel.font = UIFont.preferredFont(forTextStyle: .title1)
         
-        let emailField = UITextField()
         view.addSubview(emailField)
+        emailField.translatesAutoresizingMaskIntoConstraints = false
         emailField.font = UIFont.preferredFont(forTextStyle: .body)
         emailField.textColor = .placeholderText
         emailField.borderStyle = .roundedRect
-        emailField.translatesAutoresizingMaskIntoConstraints = false
+        
         emailField.placeholder = "Email"
         
-        let fullNameField = UITextField()
         view.addSubview(fullNameField)
+        fullNameField.translatesAutoresizingMaskIntoConstraints = false
         fullNameField.font = UIFont.preferredFont(forTextStyle: .body)
         fullNameField.textColor = .placeholderText
         fullNameField.borderStyle = .roundedRect
-        fullNameField.translatesAutoresizingMaskIntoConstraints = false
         fullNameField.placeholder = "Full Name"
         
-        let usernameField = UITextField()
         view.addSubview(usernameField)
+        usernameField.translatesAutoresizingMaskIntoConstraints = false
         usernameField.font = UIFont.preferredFont(forTextStyle: .body)
         usernameField.textColor = .placeholderText
         usernameField.borderStyle = .roundedRect
-        usernameField.translatesAutoresizingMaskIntoConstraints = false
+    
         usernameField.placeholder = "Username"
         
-        let passwordField = UITextField()
         view.addSubview(passwordField)
+        passwordField.translatesAutoresizingMaskIntoConstraints = false
         passwordField.font = UIFont.preferredFont(forTextStyle: .body)
         passwordField.textColor = .placeholderText
         passwordField.borderStyle = .roundedRect
-        passwordField.translatesAutoresizingMaskIntoConstraints = false
         passwordField.placeholder = "Password"
-        
+        passwordField.isSecureTextEntry = true
+        //passwordField.passwordRules
+
+                
         let nextButton = UIButton()
         view.addSubview(nextButton)
         nextButton.translatesAutoresizingMaskIntoConstraints = false
         nextButton.setTitle("Next", for: .normal)
+        nextButton.addTarget(self, action: #selector(createUser), for: .touchUpInside)
         nextButton.backgroundColor = .systemBlue
         nextButton.setTitleColor(.label, for: .normal)
         nextButton.setTitleColor(.systemGray6, for: .highlighted)
@@ -68,7 +76,7 @@ class SignUpVC: UIViewController {
         NSLayoutConstraint.activate([
             pageLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 50),
             pageLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            pageLabel.heightAnchor.constraint(equalToConstant: 50),
+            //pageLabel.heightAnchor.constraint(equalToConstant: 50),
             
             emailField.topAnchor.constraint(equalTo: pageLabel.bottomAnchor, constant: 40),
             emailField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
@@ -95,8 +103,29 @@ class SignUpVC: UIViewController {
             nextButton.trailingAnchor.constraint(equalTo: emailField.trailingAnchor),
             nextButton.heightAnchor.constraint(equalToConstant: 45),
         ])
+    }
     
-        
+    
+    @objc private func createUser() {
+        Auth.auth().createUser(withEmail: emailField.text!, password: passwordField.text!) { (authDataResult, error) in
+
+            if let authResult = authDataResult {
+                print("auth: \(authResult.user)")
+                print("auth: \(authResult.user.uid)")
+                print("auth: \(authResult.user.metadata)")
+                print("auth: \(authResult.user.providerData)")
+                print("info: \(authResult.user.multiFactor.enrolledFactors)")
+            }
+            
+            if let authError = error {
+                print("error: \(authError)")
+            }
+            
+            self.dismiss(animated: true)
+            
+            
+            
+        }
     }
 
 

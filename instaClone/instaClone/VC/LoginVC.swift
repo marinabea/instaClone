@@ -40,17 +40,18 @@ class LoginVC: UIViewController {
         
         usernameTextField.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(usernameTextField)
-        usernameTextField.placeholder = "Phone numbers, username, or email"
+        usernameTextField.placeholder = "Phone Numbers, Username, or Email"
         usernameTextField.font = UIFont.preferredFont(forTextStyle: .body)
         usernameTextField.textColor = .placeholderText
-        usernameTextField.backgroundColor = .tertiarySystemBackground
+        usernameTextField.borderStyle = .roundedRect
         
         passwordTextField.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(passwordTextField)
         passwordTextField.placeholder = "Password"
         passwordTextField.font = UIFont.preferredFont(forTextStyle: .body)
         passwordTextField.textColor = .placeholderText
-        passwordTextField.backgroundColor = .tertiarySystemBackground
+        passwordTextField.borderStyle = .roundedRect
+        passwordTextField.isSecureTextEntry = true
 
         loginButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(loginButton)
@@ -68,7 +69,6 @@ class LoginVC: UIViewController {
         signUpButton.setTitle("Sign Up", for: .normal)
         signUpButton.setTitleColor(.systemBlue, for: .normal)
         signUpButton.setTitleColor(.label, for: .highlighted)
-        //signUpButton.addTarget(self, action: #selector(createUser), for: .touchUpInside)
         signUpButton.addTarget(self, action: #selector(showSignUpPage), for: .touchUpInside)
         
         NSLayoutConstraint.activate([
@@ -99,22 +99,6 @@ class LoginVC: UIViewController {
             signUpButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -25)
         ])
         
-    }
-    
-    @objc private func createUser() {
-        Auth.auth().createUser(withEmail: usernameTextField.text!, password: passwordTextField.text!) { (authDataResult, error) in
-            if let authResult = authDataResult {
-                print("auth: \(authResult.user)")
-                print("auth: \(authResult.user.uid)")
-                print("auth: \(authResult.user.metadata)")
-                print("auth: \(authResult.user.providerData)")
-                print("info: \(authResult.user.multiFactor.enrolledFactors)")
-            }
-            
-            if let authError = error {
-                print("error: \(authError)")
-            }
-        }
     }
     
     @objc private func showSignUpPage() {
