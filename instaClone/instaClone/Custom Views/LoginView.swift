@@ -31,11 +31,6 @@ class LoginView: UIView {
         
         let loginButton = UIButton()
         loginButton.setTitle("Log In", for: .normal)
-        
-    
-        
     }
     
-    
-
 }

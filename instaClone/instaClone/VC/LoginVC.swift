@@ -6,12 +6,10 @@
 //
 
 import UIKit
-import Firebase
 
 class LoginVC: UIViewController {
     var username: String?
     var password: String?
-    var ref: DatabaseReference!
     
     let instagramImage = UIImageView(image: UIImage(named: "instagram")!)
     let usernameTextField = UITextField()
@@ -25,8 +23,6 @@ class LoginVC: UIViewController {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(tapGesture)
         configure()
-        
-        ref = Database.database().reference()
     }
     
     

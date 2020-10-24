@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import Firebase
 
 class SignUpVC: UIViewController {
     
@@ -107,25 +106,7 @@ class SignUpVC: UIViewController {
     
     
     @objc private func createUser() {
-        Auth.auth().createUser(withEmail: emailField.text!, password: passwordField.text!) { (authDataResult, error) in
-
-            if let authResult = authDataResult {
-                print("auth: \(authResult.user)")
-                print("auth: \(authResult.user.uid)")
-                print("auth: \(authResult.user.metadata)")
-                print("auth: \(authResult.user.providerData)")
-                print("info: \(authResult.user.multiFactor.enrolledFactors)")
-            }
-            
-            if let authError = error {
-                print("error: \(authError)")
-            }
-            
-            self.dismiss(animated: true)
-            
-            
-            
-        }
+       
     }
 
 
